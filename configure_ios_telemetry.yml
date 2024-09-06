@@ -1,0 +1,20 @@
+---
+- name: Configure IOS telemetry
+  hosts: rtr1,rtr2
+  gather_facts: false
+
+  tasks:
+    - name: Enable YANG
+      cisco.ios.ios_config:
+        lines: netconf-yang
+
+    - name: Set subscription
+      cisco.ios.ios_config:
+        lines:
+          - encoding encode-kvgpb
+          - filter xpath /bgp-ios-xe-oper:bgp-state-data/neighbors
+          - source-address {{ hostvars[inventory_hostname].private_ip }}
+          - stream yang-push
+          - update-policy periodic 3000
+          - receiver ip address {{ hostvars['ansible-1'].private_ip }} 8000 protocol grpc-tcp
+        parents: telemetry ietf subscription 1

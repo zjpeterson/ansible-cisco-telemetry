@@ -1,0 +1,16 @@
+---
+- name: Remediate BGP status
+  hosts: all
+
+  sources:
+    - ansible.eda.kafka:
+        host: localhost
+        port: 9092
+        topic: eda
+
+  rules:
+    - name: Re-apply BGP config when not established
+      condition: event.body.fields.session_state != "fsm-established"
+      action:
+        run_playbook:
+          name: configure_ios_bgp.yml

@@ -1,0 +1,35 @@
+---
+- name: Set up demo box
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          - java-17-openjdk
+          - python3-pip
+        state: present
+      become: true
+
+    - name: Install python dependencies from requirements
+      # environment:
+      #   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
+      ansible.builtin.pip:
+        executable: pip3
+        state: present
+        name:
+          - ansible-rulebook
+          - psycopg[binary]
+          - aiokafka
+          - paramiko
+
+    - name: Install collections
+      ansible.builtin.command:
+        cmd: ansible-galaxy collection install ansible.eda cisco.ios git+https://github.com/zjpeterson/network.telemetry.git
+
+    - name: Copy inventory
+      ansible.builtin.copy:
+        src: /home/student/lab_inventory/hosts
+        dest: /home/student/ansible-cisco-telemetry/inventory
