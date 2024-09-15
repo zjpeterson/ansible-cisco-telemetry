@@ -31,3 +31,13 @@
       ansible.builtin.copy:
         src: /home/student/lab_inventory/hosts
         dest: /home/student/ansible-cisco-telemetry/inventory
+        
+    - name: Apply ansible-navigator defaults
+      ansible.builtin.blockinfile:
+        dest: /home/student/.ansible-navigator.yml
+        block: |
+          {% filter indent(width=2, first=true) %}
+          mode: stdout
+          playbook-artifact:
+            enable: false
+          {% endfilter %}
