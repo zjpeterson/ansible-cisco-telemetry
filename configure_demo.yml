@@ -1,7 +1,6 @@
 ---
 - name: Set up demo box
-  hosts: localhost
-  connection: local
+  hosts: all
   gather_facts: false
 
   tasks:
@@ -26,12 +25,19 @@
     - name: Install collections
       ansible.builtin.command:
         cmd: ansible-galaxy collection install ansible.eda cisco.ios git+https://github.com/zjpeterson/network.telemetry.git
+        creates: /home/student/.ansible/collections/ansible_collections/network/telemetry
+
+    - name: Pull down git repo
+      ansible.builtin.git:
+        repo: https://github.com/zjpeterson/ansible-cisco-telemetry.git
+        dest: /home/student/ansible-cisco-telemetry
 
     - name: Copy inventory
       ansible.builtin.copy:
         src: /home/student/lab_inventory/hosts
         dest: /home/student/ansible-cisco-telemetry/inventory
-        
+        remote_src: true
+
     - name: Apply ansible-navigator defaults
       ansible.builtin.blockinfile:
         dest: /home/student/.ansible-navigator.yml
@@ -41,3 +47,10 @@
           playbook-artifact:
             enable: false
           {% endfilter %}
+
+    - name: Don't use a stdout callback
+      ansible.builtin.lineinfile:
+        path: /etc/ansible/ansible.cfg
+        regexp: '^stdout_callback'
+        state: absent
+      become: true
