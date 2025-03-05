@@ -54,3 +54,8 @@
         regexp: '^stdout_callback'
         state: absent
       become: true
+
+    - name: Pull YANG Suite image
+      containers.podman.podman_image:
+        name: quay.io/zachp/yangsuite
+      become: true
