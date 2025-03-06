@@ -10,6 +10,10 @@
         xpath: bgp-state-data/neighbors
 
   tasks:
+    - name: Enable YANG
+      cisco.ios.ios_config:
+        lines: netconf-yang
+
     - name: Set subscription
       vars:
         source_ip: "{{ hostvars[inventory_hostname].private_ip }}"
@@ -23,7 +27,7 @@
           - update-policy periodic 3000
           - receiver ip address {{ dest_ip }} {{ telemetry_grpc_port }} protocol grpc-tcp
         parents: telemetry ietf subscription {{ subscription + 1 }}
-      loop: "{{ telemetry_xpaths }}"
+      loop: "{{ telemetry_nodes }}"
       loop_control:
         loop_var: node
         index_var: subscription
