@@ -5,16 +5,16 @@
 
   tasks:
     - name: Apply interfaces config
-      cisco.ios.interfaces:
+      cisco.ios.ios_interfaces:
         state: merged
         config: "{{ interfaces_config }}"
 
     - name: Apply L3 interfaces config
-      cisco.ios.l3_interfaces:
+      cisco.ios.ios_l3_interfaces:
         state: merged
         config: "{{ l3_interfaces_config }}"
 
     - name: Apply BGP Global config
-      cisco.ios.bgp_global:
+      cisco.ios.ios_bgp_global:
         state: merged
         config: "{{ bgp_global_config }}"

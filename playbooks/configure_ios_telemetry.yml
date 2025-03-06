@@ -1,0 +1,29 @@
+---
+- name: Configure IOS telemetry
+  hosts: rtr1,rtr2
+  gather_facts: false
+
+  vars:
+    telemetry_grpc_port: 8089
+    telemetry_nodes:
+      - prefix: bgp-ios-xe-oper
+        xpath: bgp-state-data/neighbors
+
+  tasks:
+    - name: Set subscription
+      vars:
+        source_ip: "{{ hostvars[inventory_hostname].private_ip }}"
+        dest_ip: "{{ hostvars['ansible-1'].private_ip }}"
+      cisco.ios.ios_config:
+        lines:
+          - encoding encode-kvgpb
+          - filter xpath /{{ node.prefix }}:{{ node.xpath }}
+          - source-address {{ source_ip }}
+          - stream yang-push
+          - update-policy periodic 3000
+          - receiver ip address {{ dest_ip }} {{ telemetry_grpc_port }} protocol grpc-tcp
+        parents: telemetry ietf subscription {{ subscription + 1 }}
+      loop: "{{ telemetry_xpaths }}"
+      loop_control:
+        loop_var: node
+        index_var: subscription
