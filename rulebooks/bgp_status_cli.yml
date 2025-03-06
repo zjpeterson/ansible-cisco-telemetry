@@ -13,4 +13,4 @@
       condition: event.body.fields.session_state != "fsm-established"
       action:
         run_playbook:
-          name: configure_ios_bgp.yml
+          name: playbooks/configure_ios_bgp.yml
