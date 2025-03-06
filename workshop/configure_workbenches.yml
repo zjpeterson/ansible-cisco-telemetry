@@ -1,5 +1,5 @@
 ---
-- name: Set up demo box
+- name: Set up workbenches
   hosts: all
   gather_facts: false
 
