@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: false
 
+  environment:
+    CONTROLLER_USERNAME: admin
+    CONTROLLER_PASSWORD: "{{ ansible_password }}"
+
   tasks:
     - name: Install packages
       ansible.builtin.dnf:
@@ -59,3 +63,52 @@
       containers.podman.podman_image:
         name: quay.io/zachp/yangsuite
       become: true
+
+    - name: Add project in Controller
+      ansible.controller.project:
+        controller_host: "{{ inventory_hostname }}"
+        name: Cisco Telemetry
+        organization: Default
+        scm_type: git
+        scm_url: https://github.com/zjpeterson/ansible-cisco-telemetry.git
+
+    - name: Add vars to Controller hosts
+      vars:
+        _new_vars: "{{ lookup('file', playbook_dir + '/../playbooks/host_vars/' + item.name + '.yml') | from_yaml }}"
+      ansible.controller.host:
+        controller_host: "{{ inventory_hostname }}"
+        name: "{{ item.name }}"
+        inventory: Workshop Inventory
+        variables: "{{ item.variables | from_yaml | combine(_new_vars) }}"
+      loop: "{{ lookup('ansible.controller.controller_api', 'hosts', host=inventory_hostname, username='admin', password=ansible_password) }}"
+      when: item.name in ['rtr1', 'rtr2']
+
+    - name: Get Controller token
+      ansible.controller.token:
+        description: EDA Controller
+        scope: write
+        controller_host: "{{ inventory_hostname }}"
+        validate_certs: false
+
+    - name: Add Controller token in EDA
+      ansible.eda.credential:
+        controller_host: "https://{{ inventory_hostname }}"
+        name: Automation Controller
+        organization: Default
+        credential_type_name: Red Hat Ansible Automation Platform
+        inputs:
+          oauth_token: "{{ controller_token.token }}"
+          host: "https://{{ inventory_hostname }}/api/controller/"
+
+    - name: Add project in EDA
+      ansible.eda.project:
+        controller_host: "https://{{ inventory_hostname }}"
+        name: Cisco Telemetry
+        organization: Default
+        url: https://github.com/zjpeterson/ansible-cisco-telemetry.git
+
+    - name: Add upstream DE
+      ansible.eda.decision_environment:
+        controller_host: "https://{{ inventory_hostname }}"
+        name: Quay DE
+        image_url: quay.io/ansible/ansible-rulebook:v1.1.3
