@@ -111,4 +111,5 @@
       ansible.eda.decision_environment:
         controller_host: "https://{{ inventory_hostname }}"
         name: Quay DE
+        organization: Default
         image_url: quay.io/ansible/ansible-rulebook:v1.1.3
