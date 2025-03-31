@@ -1,0 +1,20 @@
+---
+- name: Fetch and parse YANG models
+  hosts: rtr1
+  gather_facts: false
+
+  vars:
+    ansible_connection: ansible.netcommon.netconf
+    model: Cisco-IOS-XE-bgp-oper
+
+  tasks:
+    - name: Fetch YANG model
+      ansible.yang.fetch:
+        name: "{{ model }}"
+        dir: "{{ playbook_dir }}/yang_files"
+
+    - name: Generate spec from model
+      ansible.yang.generate_spec:
+        file: "{{ playbook_dir }}/yang_files/{{ model }}.yang"
+        tree_schema:
+          path: "{{ playbook_dir }}/yang_files/{{ model }}.tree"

@@ -1,0 +1,17 @@
+---
+- name: Identify YANG modules
+  hosts: rtr1
+  gather_facts: false
+
+  vars:
+    ansible_connection: ansible.netcommon.netconf
+    search_for: bgp
+
+  tasks:
+    - name: Fetch YANG info
+      ansible.yang.fetch:
+      register: yang_info
+    
+    - name: Show supported modules
+      ansible.builtin.debug:
+        var: yang_info.supported_yang_modules | select('search', search_for, ignorecase=true)
