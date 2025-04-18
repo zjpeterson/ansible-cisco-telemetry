@@ -6,8 +6,10 @@
   vars:
     telemetry_grpc_port: 8089
     telemetry_nodes:
-      - prefix: bgp-ios-xe-oper
-        xpath: bgp-state-data/neighbors
+      - prefix: interfaces-ios-xe-oper
+        xpath: interfaces
+      # - prefix: bgp-ios-xe-oper
+      #   xpath: bgp-state-data/neighbors
 
   tasks:
     - name: Enable YANG
