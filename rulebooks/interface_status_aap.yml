@@ -1,0 +1,17 @@
+---
+- name: Remediate BGP status
+  hosts: all
+
+  sources:
+    - ansible.eda.kafka:
+        host: localhost
+        port: 9092
+        topic: eda
+
+  rules:
+    - name: Re-apply config when interface not up
+      condition: event.body.fields.admin_status != "if-state-up"
+      action:
+        run_job_template:
+          name: Routing configuration
+          organization: Default
