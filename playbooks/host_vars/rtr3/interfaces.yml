@@ -1,0 +1,4 @@
+---
+interfaces_config:
+  - name: Tunnel0
+    enabled: true

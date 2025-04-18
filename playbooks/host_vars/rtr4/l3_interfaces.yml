@@ -1,0 +1,5 @@
+---
+l3_interfaces_config:
+  - name: Tunnel0
+    ipv4:
+      - address: 10.101.101.4/24
