@@ -5,7 +5,7 @@
 
   vars:
     ansible_connection: ansible.netcommon.netconf
-    search_for: bgp
+    search_for: interface
 
   tasks:
     - name: Fetch YANG info
