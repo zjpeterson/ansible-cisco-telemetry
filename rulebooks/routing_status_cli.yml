@@ -1,0 +1,25 @@
+---
+- name: Remediate interface status
+  hosts: all
+
+  sources:
+    - ansible.eda.kafka:
+        host: localhost
+        port: 9092
+        topic: eda
+
+  rules:
+    - name: Re-apply config when interface not up
+      condition:
+        all:
+          - event.body.fields.admin_status != "if-state-up"
+          - event.body.tags.name == 'Tunnel1'
+      action:
+        run_playbook:
+          name: playbooks/configure_ios_routing.yml
+
+    - name: Re-apply config when BGP not established
+      condition: event.body.fields.session_state != "fsm-established"
+      action:
+        run_playbook:
+          name: playbooks/configure_ios_routing.yml
