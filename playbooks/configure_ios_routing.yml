@@ -1,5 +1,5 @@
 ---
-- name: Configure IOS BGP
+- name: Configure IOS Routing
   hosts: "{{ ansible_eda.event.body.tags.source | default('rtr1,rtr2') }}"
   gather_facts: false
 
@@ -8,11 +8,6 @@
       cisco.ios.ios_interfaces:
         state: merged
         config: "{{ interfaces_config }}"
-
-    - name: Apply L3 interfaces config
-      cisco.ios.ios_l3_interfaces:
-        state: merged
-        config: "{{ l3_interfaces_config }}"
 
     - name: Apply BGP Global config
       cisco.ios.ios_bgp_global:
