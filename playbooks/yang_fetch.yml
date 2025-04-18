@@ -5,7 +5,7 @@
 
   vars:
     ansible_connection: ansible.netcommon.netconf
-    model: Cisco-IOS-XE-bgp-oper
+    model: Cisco-IOS-XE-interfaces-oper
 
   tasks:
     - name: Fetch YANG model
