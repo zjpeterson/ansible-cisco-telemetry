@@ -10,8 +10,10 @@
 
   rules:
     - name: Re-apply config when interface not up
-      condition: event.body.fields.admin_status != "if-state-up"
-      action:
+      condition:
+        all:
+          - event.body.fields.admin_status != "if-state-up"
+          - event.body.tags.name == 'Tunnel1'
         run_job_template:
           name: Routing configuration
           organization: Default
