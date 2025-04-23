@@ -10,7 +10,7 @@
 
   rules:
     - name: Re-apply config when interface not up
-      condition: event.body.fields.admin_status != "if-state-up" and event.body.tags.name == 'Tunnel1'
+      condition: event.body.fields.admin_status != "if-state-up" and event.body.tags.name == 'Tunnel0'
       action:
         run_playbook:
           name: playbooks/configure_ios_routing.yml
