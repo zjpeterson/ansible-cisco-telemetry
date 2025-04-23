@@ -37,6 +37,14 @@
         repo: https://github.com/zjpeterson/ansible-cisco-telemetry.git
         dest: /home/student/ansible-cisco-telemetry
 
+    - name: Remove repo files not needed
+      ansible.builtin.file:
+        path: /home/student/ansible-cisco-telemetry/{{ item }}
+        state: absent
+      loop:
+        - .git
+        - workshop
+
     - name: Copy inventory
       ansible.builtin.copy:
         src: /home/student/lab_inventory/hosts
