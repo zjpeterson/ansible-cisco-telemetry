@@ -10,10 +10,7 @@
 
   rules:
     - name: Re-apply config when interface not up
-      condition:
-        all:
-          - event.body.tags.name == 'Tunnel1'
-          - event.body.fields.admin_status != "if-state-up"
+      condition: event.body.fields.admin_status != "if-state-up" and event.body.tags.name == 'Tunnel1'
       action:
         run_job_template:
           name: Router configuration
