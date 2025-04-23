@@ -16,12 +16,12 @@
           - event.body.tags.name == 'Tunnel1'
       action:
         run_job_template:
-          name: Routing configuration
+          name: Router configuration
           organization: Default
 
     - name: Re-apply config when BGP not established
       condition: event.body.fields.session_state != "fsm-established"
       action:
         run_job_template:
-          name: Routing configuration
+          name: Router configuration
           organization: Default
