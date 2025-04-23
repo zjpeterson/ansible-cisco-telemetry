@@ -1,5 +1,5 @@
 ---
-- name: Remediate BGP status
+- name: Remediate interface status
   hosts: all
 
   sources:

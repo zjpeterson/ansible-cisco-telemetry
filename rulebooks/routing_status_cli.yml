@@ -1,5 +1,5 @@
 ---
-- name: Remediate interface status
+- name: Remediate routing status
   hosts: all
 
   sources:
