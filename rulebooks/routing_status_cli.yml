@@ -19,7 +19,7 @@
           name: playbooks/configure_ios_routing.yml
 
     - name: Re-apply config when BGP not established
-      condition: event.body.fields.session_state != "fsm-established"
+      condition: event.body.fields['connection/state'] != "established"
       action:
         run_playbook:
           name: playbooks/configure_ios_routing.yml

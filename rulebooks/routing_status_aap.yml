@@ -20,7 +20,7 @@
           organization: Default
 
     - name: Re-apply config when BGP not established
-      condition: event.body.fields.session_state != "fsm-established"
+      condition: event.body.fields['connection/state'] != "established"
       action:
         run_job_template:
           name: Router configuration
