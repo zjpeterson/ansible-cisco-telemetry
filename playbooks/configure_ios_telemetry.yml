@@ -8,8 +8,6 @@
     telemetry_nodes:
       - prefix: interfaces-ios-xe-oper
         xpath: interfaces
-      # - prefix: bgp-ios-xe-oper
-      #   xpath: bgp-state-data/neighbors
 
   tasks:
     - name: Enable YANG
