@@ -51,6 +51,12 @@
         dest: /home/student/ansible-cisco-telemetry/inventory
         remote_src: true
 
+    - name: Change default EE
+      ansible.builtin.replace:
+        path: /home/student/.ansible-navigator.yml
+        regexp: '(^\s*image:\s*)quay\.io/acme_corp/network-ee:latest'
+        replace: '\1quay.io/zachp/lab-ee:latest'
+
     - name: Apply ansible-navigator defaults
       ansible.builtin.blockinfile:
         dest: /home/student/.ansible-navigator.yml
