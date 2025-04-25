@@ -1,0 +1,10 @@
+collections:
+  - name: ansible.netcommon
+    version: 7.2.0
+  - name: ansible.yang
+    version: 3.0.0
+  - name: cisco.ios
+    version: 9.2.0
+  - name: https://github.com/zjpeterson/network.telemetry.git
+    type: git
+    version: main
