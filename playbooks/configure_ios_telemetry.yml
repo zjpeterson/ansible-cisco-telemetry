@@ -10,10 +10,6 @@
         xpath: interfaces
 
   tasks:
-    - name: Enable YANG
-      cisco.ios.ios_config:
-        lines: netconf-yang
-
     - name: Set subscription
       vars:
         source_ip: "{{ hostvars[inventory_hostname].private_ip }}"

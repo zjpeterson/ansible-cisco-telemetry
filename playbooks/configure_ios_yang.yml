@@ -1,0 +1,19 @@
+---
+- name: Configure NETCONF and YANG
+  hosts: rtr1,rtr2
+  gather_facts: false
+
+  tasks:
+    - name: Enable YANG
+      cisco.ios.ios_config:
+        lines: netconf-yang
+
+    - name: Wait for YANG to be available
+      cisco.ios.ios_command:
+        commands: show netconf-yang statistics
+      register: _yang
+      until:
+        - _yang.stdout is defined
+        - _yang.stdout is not search('not responding')
+      retries: 10
+      delay: 15
