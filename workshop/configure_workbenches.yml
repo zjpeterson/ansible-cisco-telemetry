@@ -29,17 +29,17 @@
 
     - name: Install collections
       ansible.builtin.command:
-        cmd: ansible-galaxy collection install ansible.eda cisco.ios git+https://github.com/zjpeterson/network.telemetry.git
+        cmd: ansible-galaxy collection install ansible.eda cisco.ios
         creates: /home/student/.ansible/collections/ansible_collections/network/telemetry
 
     - name: Pull down git repo
       ansible.builtin.git:
         repo: https://github.com/zjpeterson/ansible-cisco-telemetry.git
-        dest: /home/student/ansible-cisco-telemetry
+        dest: /home/student/telemetry
 
     - name: Remove repo files not needed
       ansible.builtin.file:
-        path: /home/student/ansible-cisco-telemetry/{{ item }}
+        path: /home/student/telemetry/{{ item }}
         state: absent
       loop:
         - .git
@@ -48,7 +48,7 @@
     - name: Copy inventory
       ansible.builtin.copy:
         src: /home/student/lab_inventory/hosts
-        dest: /home/student/ansible-cisco-telemetry/inventory
+        dest: /home/student/telemetry/inventory
         remote_src: true
 
     - name: Change default EE
