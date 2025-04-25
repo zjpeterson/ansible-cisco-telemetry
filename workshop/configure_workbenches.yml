@@ -68,9 +68,13 @@
         state: absent
       become: true
 
+    - name: Pull lab EE
+      containers.podman.podman_image:
+        name: quay.io/zachp/lab-ee:latest
+
     - name: Pull YANG Suite image
       containers.podman.podman_image:
-        name: quay.io/zachp/yangsuite
+        name: quay.io/zachp/yangsuite:latest
       become: true
 
     - name: Add project in Controller

@@ -1,7 +1,6 @@
 ---
 - name: Deploy telemetry collector
-  hosts: localhost
-  connection: local
+  hosts: ansible-1
   become: true
 
   tasks:
@@ -9,7 +8,6 @@
       include_role:
         name: network.telemetry.run
       vars:
-        ansible_user: student
         telemetry_grpc_port: 8089
         operations:
           - name: deploy_collector
