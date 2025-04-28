@@ -1,0 +1,13 @@
+---
+- name: Gather IOS Routing
+  hosts: rtr1
+  gather_facts: false
+
+  tasks:
+    - name: Gather interfaces config
+      cisco.ios.ios_interfaces:
+        state: gathered
+
+    - name: Gather BGP Global config
+      cisco.ios.ios_bgp_global:
+        state: gathered
