@@ -8,6 +8,9 @@ bgp_global_config:
   neighbors:
     - neighbor_address: 10.200.200.1
       remote_as: 65000
+      ebgp_multihop:
+        enable: true
+        hop_count: 255
   timers:
     keepalive: 5
     holdtime: 15
