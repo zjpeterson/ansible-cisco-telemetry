@@ -22,3 +22,5 @@
         run_job_template:
           name: Router configuration
           organization: Default
+          job_args:
+            limit: event.body.tags.source
