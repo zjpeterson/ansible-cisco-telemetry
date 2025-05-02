@@ -1,6 +1,6 @@
 ---
 - name: Configure IOS Routing
-  hosts: "{{ ansible_eda.event.body.tags.source | default('rtr1,rtr2') }}"
+  hosts: rtr1,rtr2
   gather_facts: false
 
   tasks:
